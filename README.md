@@ -2,6 +2,8 @@
 
 A Jupyter kernel for Vim script
 
+![vim_kernel](https://raw.githubusercontent.com/mattn/vim_kernel/master/screenshot.png)
+
 ## Installation
 
 ```
