@@ -1,3 +1,4 @@
+from ipykernel.kernelapp import IPKernelApp
 from ipykernel.kernelbase import Kernel
 from subprocess import Popen, STDOUT, PIPE
 from os import path, remove, environ
@@ -60,3 +61,7 @@ class VimKernel(Kernel):
 
     def do_shutdown(self, restart):
         self.vim.kill()
+
+if __name__ == '__main__':
+    from ipykernel.kernelapp import IPKernelApp
+    IPKernelApp.launch_instance(kernel_class=VimKernel)
