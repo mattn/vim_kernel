@@ -6,14 +6,19 @@ A Jupyter kernel for Vim script
 
 ## Installation
 
-```
-python install.py
-```
-
-If you want to install vim_kernel into user's home directory:
+This requires IPython 3.
 
 ```
-python install.py --user
+python setup.py install
+python -m vim_kernel.install
+```
+
+To use it, run one of:
+
+```
+jupyter notebook
+jupyter qtconsole --kernel vim_kernel
+jupyter console --kernel vim_kernel
 ```
 
 ## License
