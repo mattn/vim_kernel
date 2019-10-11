@@ -3,18 +3,18 @@ from subprocess import Popen, STDOUT, PIPE, check_output
 from os import path, remove, environ
 from time import sleep
 import json
+from jupyter_client.kernelspec import get_kernel_spec
+
+
+__version__ = '0.0.1'
 
 class VimKernel(Kernel):
     implementation = 'Vim'
-    implementation_version = '0.1'
-    language = 'no-op'
-    language_version = '0.1'
-    language_info = {'name': 'Vim', 'mimetype': 'text/plain'}
-    banner = 'Vim script'
+    implementation_version = __version__
 
     @property
     def language_version(self):
-        return 'vim'
+        return __version__
 
     _banner = None
 
@@ -24,9 +24,13 @@ class VimKernel(Kernel):
             self._banner = check_output(['vim', '--version']).decode('utf-8')
         return self._banner
 
+    language_info = {'name': 'vim',
+                     'mimetype': 'text/plain',
+                     'file_extension': '.vim'}
+
     def __init__(self, **kwargs):
         Kernel.__init__(self, **kwargs)
-        env = environ.copy()
+        self.dir = get_kernel_spec('vim_kernel').resource_dir
         self.vim = Popen([
             'vim',
             '-X',
@@ -38,12 +42,12 @@ class VimKernel(Kernel):
             '-e',
             '-s',
             '-S',
-            path.join(path.dirname(__file__), 'kernel.vim')
-            ], stdout=PIPE, stderr=STDOUT, shell=False, env=env)
+            path.join(self.dir, 'kernel.vim')
+            ], stdout=PIPE, stderr=STDOUT, shell=False, env=environ.copy())
 
     def do_execute(self, code, silent, store_history=True, user_expressions=None, allow_stdin=False):
-        stdout = path.join(path.dirname(__file__), '%d.output' % self.vim.pid)
-        stdin = path.join(path.dirname(__file__), '%d.input' % self.vim.pid)
+        stdout = path.join(self.dir, '%d.output' % self.vim.pid)
+        stdin = path.join(self.dir, '%d.input' % self.vim.pid)
         if path.exists(stdout):
             remove(stdout)
         with open(stdin, 'w', encoding='utf-8') as f:
@@ -72,7 +76,3 @@ class VimKernel(Kernel):
 
     def do_shutdown(self, restart):
         self.vim.kill()
-
-if __name__ == '__main__':
-    from ipykernel.kernelapp import IPKernelApp
-    IPKernelApp.launch_instance(kernel_class=VimKernel)

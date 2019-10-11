@@ -7,18 +7,13 @@ from subprocess import check_output
 from jupyter_client.kernelspec import KernelSpecManager
 from IPython.utils.tempdir import TemporaryDirectory
 
-kernel_json = {"argv":[sys.executable,"-m","vim_kernel", "-f", "{connection_file}"], "display_name":"Vim"}
-
 def install_vim_kernel_spec(user=True, prefix=None):
-    curdir = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'vim_kernel')
+    curdir = os.path.dirname(os.path.abspath(__file__))
+    kernel_json = {"argv":[sys.executable,"-m","vim_kernel", "-f", "{connection_file}"], "display_name":"Vim"}
     with open(os.path.join(curdir, 'kernel.json'), 'w') as f:
         json.dump(kernel_json, f, sort_keys=True)
     print('Installing IPython kernel spec')
-    KernelSpecManager().install_kernel_spec(curdir, 'vim_kernel', user=user, replace=True, prefix=prefix)
-    dir = json.loads(check_output(['jupyter', 'kernelspec', 'list', '--json']))['kernelspecs']['vim_kernel']['resource_dir']
-    modified = {"argv":[sys.executable,os.path.join(dir,'kernel.py'), "-f", "{connection_file}"], "display_name":"Vim"}
-    with open(os.path.join(dir, 'kernel.json'), 'w') as f:
-        json.dump(modified, f, sort_keys=True)
+    KernelSpecManager().install_kernel_spec(curdir, 'vim_kernel', user=user, prefix=prefix)
 
 def _is_root():
     try:
