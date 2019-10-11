@@ -1,6 +1,5 @@
-from ipykernel.kernelapp import IPKernelApp
 from ipykernel.kernelbase import Kernel
-from subprocess import Popen, STDOUT, PIPE
+from subprocess import Popen, STDOUT, PIPE, check_output
 from os import path, remove, environ
 from time import sleep
 import json
@@ -12,6 +11,18 @@ class VimKernel(Kernel):
     language_version = '0.1'
     language_info = {'name': 'Vim', 'mimetype': 'text/plain'}
     banner = 'Vim script'
+
+    @property
+    def language_version(self):
+        return 'vim'
+
+    _banner = None
+
+    @property
+    def banner(self):
+        if self._banner is None:
+            self._banner = check_output(['vim', '--version']).decode('utf-8')
+        return self._banner
 
     def __init__(self, **kwargs):
         Kernel.__init__(self, **kwargs)

@@ -2,6 +2,7 @@ import json
 import os
 import sys
 import argparse
+from subprocess import check_output
 
 from jupyter_client.kernelspec import KernelSpecManager
 from IPython.utils.tempdir import TemporaryDirectory
@@ -14,6 +15,10 @@ def install_vim_kernel_spec(user=True, prefix=None):
         json.dump(kernel_json, f, sort_keys=True)
     print('Installing IPython kernel spec')
     KernelSpecManager().install_kernel_spec(curdir, 'vim_kernel', user=user, replace=True, prefix=prefix)
+    dir = json.loads(check_output(['jupyter', 'kernelspec', 'list', '--json']))['kernelspecs']['vim_kernel']['resource_dir']
+    modified = {"argv":[sys.executable,os.path.join(dir,'kernel.py'), "-f", "{connection_file}"], "display_name":"Vim"}
+    with open(os.path.join(dir, 'kernel.json'), 'w') as f:
+        json.dump(modified, f, sort_keys=True)
 
 def _is_root():
     try:
