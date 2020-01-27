@@ -14,3 +14,15 @@ pytest = "^5.2"
 [build-system]
 requires = ["poetry>=0.12"]
 build-backend = "poetry.masonry.api"
+
+[tool.flit.metadata]
+module = "vim_kernel"
+author = "mattn"
+author-email = "mattn.jp@gmail.com"
+home-page = "https://github.com/mattn/vim_kernel"
+description-file = "README.md"
+classifiers = [
+    'Framework :: IPython',
+    'License :: MIT',
+    'Programming Language :: Vim',
+]
