@@ -1,6 +1,6 @@
 # vim_kernel
 
-[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/mattn/vim_kernel)
+[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/mattn/vim_kernel/master)
 
 
 A Jupyter kernel for Vim script
@@ -9,7 +9,7 @@ A Jupyter kernel for Vim script
 
 ## Try vim_kernel without install
 
-Click [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/mattn/vim_kernel)
+Click [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/mattn/vim_kernel/master)
 
 ## Installation
 
