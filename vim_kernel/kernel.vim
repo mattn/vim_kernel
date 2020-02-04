@@ -22,6 +22,8 @@ function! s:watch_stdin(...) abort
         silent let l:l2 = search('\*[^*]\+\*$', 'W')
         if l:l2 == 0
           let l:l2 = getline('$')
+        else
+          let l:l2 -= 1
         endif
         let l:lines = getline(l:l1, l:l2)
         let l:stdout = join(l:lines, "\n")
