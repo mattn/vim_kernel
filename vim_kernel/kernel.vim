@@ -21,7 +21,7 @@ function! s:watch_stdin(...) abort
         silent normal! j
         silent let l:l2 = search('\*[^*]\+\*$', 'W')
         if l:l2 == 0
-          let l:l2 = getline('$')
+          let l:l2 = line('$')
         else
           let l:l2 -= 1
         endif
