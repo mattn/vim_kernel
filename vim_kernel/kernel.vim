@@ -16,6 +16,17 @@ function! s:watch_stdin(...) abort
       let l:stderr = v:exception
     finally
       redir END
+      if &filetype == 'help'
+        let l:l1 = line('.')
+        silent normal! j
+        silent let l:l2 = search('\*[^*]\+\*$', 'W')
+        if l:l2 == 0
+          let l:l2 = getline('$')
+        endif
+        let l:lines = getline(l:l1, l:l2)
+        let l:stdout = join(l:lines, "\n")
+        close
+      endif
       if !empty(l:stdout) && l:stdout[0] == "\n"
         let l:stdout = l:stdout[1:]
       endif
